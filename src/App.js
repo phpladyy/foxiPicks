@@ -102,13 +102,13 @@ function ResultsNum() {
 function Main() {
   return (
     <main className="main">
-      <MovieListBox />
+      <MoviePanel />
       <WatchedList />
     </main>
   );
 }
 
-function MovieListBox() {
+function MoviePanel() {
   const [isOpen1, setIsOpen1] = useState(true);
   return (
     <div className="box">
@@ -118,11 +118,11 @@ function MovieListBox() {
       >
         {isOpen1 ? "–" : "+"}
       </button>
-      {isOpen1 && <DisplayMovies />}
+      {isOpen1 && <MoviesList />}
     </div>
   );
 }
-function DisplayMovies() {
+function MoviesList() {
   const [movies, setMovies] = useState(tempMovieData);
   return (
     <ul className="list">
