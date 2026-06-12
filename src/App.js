@@ -51,6 +51,7 @@ const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 export default function App() {
+  const [watched, setWatched] = useState(tempWatchedData);
   const [movies, setMovies] = useState(tempMovieData);
   return (
     <>
@@ -59,10 +60,13 @@ export default function App() {
         <ResultsNum movies={movies} />
       </Navbar>
       <Main>
-        <MoviePanel>
+        <Panel>
           <MovieList movies={movies} />
-        </MoviePanel>
-        <WatchedList />
+        </Panel>
+        <Panel>
+          <WatchedSummary watched={watched} />
+          <WatchedList watched={watched} />
+        </Panel>
       </Main>
     </>
   );
@@ -111,17 +115,17 @@ function Main({ children }) {
   return <main className="main">{children}</main>;
 }
 
-function MoviePanel({ children }) {
-  const [isOpen1, setIsOpen1] = useState(true);
+function Panel({ children }) {
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="box">
       <button
         className="btn-toggle"
-        onClick={() => setIsOpen1((open) => !open)}
+        onClick={() => setIsOpen((open) => !open)}
       >
-        {isOpen1 ? "–" : "+"}
+        {isOpen ? "–" : "+"}
       </button>
-      {isOpen1 && children}
+      {isOpen && children}
     </div>
   );
 }
@@ -150,27 +154,6 @@ function MovieItem({ movie }) {
   );
 }
 
-function WatchedList() {
-  const [watched, setWatched] = useState(tempWatchedData);
-  const [isOpen2, setIsOpen2] = useState(true);
-
-  return (
-    <div className="box">
-      <button
-        className="btn-toggle"
-        onClick={() => setIsOpen2((open) => !open)}
-      >
-        {isOpen2 ? "–" : "+"}
-      </button>
-      {isOpen2 && (
-        <>
-          <WatchedSummary watched={watched} />
-          <DisplayWatched watched={watched} />
-        </>
-      )}
-    </div>
-  );
-}
 
 function WatchedSummary({ watched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
@@ -202,7 +185,7 @@ function WatchedSummary({ watched }) {
   );
 }
 
-function DisplayWatched({ watched }) {
+function WatchedList({ watched }) {
   return (
     <ul className="list">
       {watched.map((movie) => (
