@@ -28,7 +28,16 @@ body {
   background-color: var(--color-background-900);
   padding: 2.4rem;
 }
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
 
+
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 /* ******* */
 
 .nav-bar {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import StarRating from "./StarRating";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -6,7 +7,7 @@ const average = (arr) =>
 const KEY = "4e376efd";
 
 export default function App() {
-  const [query, setQuery] = useState("derry");
+  const [query, setQuery] = useState("inception");
   const tempQuery = "interstellar";
 
   const [watched, setWatched] = useState([]);
@@ -15,11 +16,11 @@ export default function App() {
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
 
-  function handleMovieSelect(id){
-    selectedId === id ? setSelectedId(null):setSelectedId(id);
+  function handleMovieSelect(id) {
+    selectedId === id ? setSelectedId(null) : setSelectedId(id);
   }
 
-  function handleCloseMovie(){
+  function handleCloseMovie() {
     setSelectedId(null);
   }
 
@@ -63,14 +64,19 @@ export default function App() {
       <Main>
         <Panel>
           {isLoading && <Loader />}
-          {!isLoading && !error && <MovieList movies={movies} onMovieSelect={handleMovieSelect}/>}
+          {!isLoading && !error && (
+            <MovieList movies={movies} onMovieSelect={handleMovieSelect} />
+          )}
           {error && <ErrorMessage message={error} />}
         </Panel>
 
         <Panel>
           {selectedId ? (
-            <SelectedMovie selectedId={selectedId} 
-            onCloseMovie={handleCloseMovie}/>
+            <SelectedMovie
+              apiKey={KEY}
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+            />
           ) : (
             <>
               <WatchedSummary watched={watched} />
@@ -138,19 +144,23 @@ function Panel({ children }) {
     </div>
   );
 }
-function MovieList({ movies,onMovieSelect }) {
+function MovieList({ movies, onMovieSelect }) {
   return (
     <ul className="list list-movies">
       {movies?.map((movie) => (
-        <MovieItem key={movie.imdbID} movie={movie} handleMovieSelect={onMovieSelect}/>
+        <MovieItem
+          key={movie.imdbID}
+          movie={movie}
+          handleMovieSelect={onMovieSelect}
+        />
       ))}
     </ul>
   );
 }
 
-function MovieItem({ movie,handleMovieSelect }) {
+function MovieItem({ movie, handleMovieSelect }) {
   return (
-    <li onClick={()=>handleMovieSelect(movie.imdbID)}>
+    <li onClick={() => handleMovieSelect(movie.imdbID)}>
       <img
         src={movie.Poster}
         alt={`${movie.Title} poster`}
@@ -170,10 +180,79 @@ function MovieItem({ movie,handleMovieSelect }) {
   );
 }
 
-function SelectedMovie({ selectedId,onCloseMovie }) {
-  return <div className="details">
-    <button className="btn-back" onClick={onCloseMovie}>&times;</button>
-    {selectedId}</div>;
+function SelectedMovie({ selectedId, onCloseMovie }) {
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const url = `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`;
+
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: genre,
+  } = movie;
+
+  useEffect(
+    function () {
+      async function getDetails() {
+        setIsLoading(true);
+        const detailsRaw = await fetch(url);
+        if (!detailsRaw.ok) {
+          throw new Error(`Fetching error`);
+        }
+        const movieDetails = await detailsRaw.json();
+        console.log(movieDetails);
+        setMovie(movieDetails);
+        setIsLoading(false);
+      }
+      getDetails();
+    },
+    [selectedId],
+  );
+
+  return (
+    <div key={selectedId} className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &times;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &sdot; {runtime}
+              </p>
+              <p>{genre}</p>
+              <p>
+                <span>⭐</span>
+                {imdbRating} Rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              <StarRating size={24} maxRating={10} />
+            </div>
+            <p>
+              <em>{plot}</em>
+            </p>
+            <p>Directed by: {director}</p>
+            <p>Actors: {actors}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
 }
 
 function WatchedSummary({ watched }) {
