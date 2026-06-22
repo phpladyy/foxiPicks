@@ -25,7 +25,7 @@ StarRating.propTypes = {
 export default function StarRating({
   maxRating = 5,
   color = "#ffc400",
-  size = 48,
+  size = 2,
   className = "",
   messages = [],
   defaultRating = 0,
@@ -43,7 +43,7 @@ export default function StarRating({
     lineHeight: "0",
     margin: "0",
     color: color,
-    fontSize: `${size / 1.5}px`,
+    fontSize: `${size / 1.5}vmin`,
   };
 
   return (
@@ -72,8 +72,8 @@ export default function StarRating({
 
 function Star({ onClick, full, onHover, onHoverOut, color, size }) {
   const starStyle = {
-    width: `${size}px`,
-    height: `${size}px`,
+    width: `${size}vmin`,
+    height: `${size}vmin`,
     display: "block",
     cursor: "pointer",
   };

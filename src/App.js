@@ -226,7 +226,7 @@ function SelectedMovie({ selectedId, onCloseMovie, onAddWatched, watched }) {
               {!isWatched ? (
                 <>
                   <StarRating
-                    size={24}
+                    size={3.4}
                     maxRating={10}
                     onsetUserRating={setUserRating}
                   />
