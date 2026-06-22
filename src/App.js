@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import StarRating from "./StarRating";
-import { Logo } from "./Logo";
+
 import { SearchBar } from "./SearchBar";
 import { WatchedSummary } from "./WatchedSummary";
 import { WatchedList } from "./WatchedList";
 import { MovieList } from "./MovieList";
+import { Navbar } from "./Navbar";
 
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -74,6 +75,7 @@ export default function App() {
         <SearchBar query={query} setQuery={setQuery} />
         <ResultsNum movies={movies} />
       </Navbar>
+
       <Main>
         <Panel>
           {isLoading && <Loader />}
@@ -111,15 +113,6 @@ export default function App() {
 const Loader = () => <p className="loader">Loading...</p>;
 
 const ErrorMessage = ({ message }) => <p className="error">{message}</p>;
-
-function Navbar({ children }) {
-  return (
-    <nav className="nav-bar">
-      <Logo />
-      {children}
-    </nav>
-  );
-}
 
 function ResultsNum({ movies }) {
   return (
@@ -180,23 +173,24 @@ function SelectedMovie({ selectedId, onCloseMovie, onAddWatched, watched }) {
     onCloseMovie();
   }
 
-  useEffect(
-    function () {
-      async function getDetails() {
-        setIsLoading(true);
-        const detailsRaw = await fetch(url);
-        if (!detailsRaw.ok) {
-          throw new Error(`Fetching error`);
-        }
-        const movieDetails = await detailsRaw.json();
-        console.log(movieDetails);
-        setMovie(movieDetails);
-        setIsLoading(false);
+  useEffect(() => {
+    async function getDetails() {
+      setIsLoading(true);
+      const detailsRaw = await fetch(url);
+      if (!detailsRaw.ok) {
+        throw new Error(`Fetching error`);
       }
-      getDetails();
-    },
-    [selectedId],
-  );
+      const movieDetails = await detailsRaw.json();
+      console.log(movieDetails);
+      setMovie((movie) => movieDetails);
+      setIsLoading(false);
+    }
+    getDetails();
+  }, [selectedId]);
+
+  useEffect(() => {
+    document.title = title ? title : "Loading...";
+  }, [title]);
 
   return (
     <div className="details">
