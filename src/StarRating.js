@@ -4,12 +4,15 @@ import PropTypes from "prop-types";
 const containerStyle = {
   display: "flex",
   alignItems: "center",
-  gap: "16px",
+  gap: "0.1vw",
 };
 
 const starContainerStyle = {
   display: "flex",
-  gap: "4px",
+  alignItems: "center",
+  gap: "0.1vmin",
+  flexWrap: "nowrap",
+  width: "100%",  
 };
 
 StarRating.propTypes = {
@@ -40,10 +43,10 @@ export default function StarRating({
   }
 
   const textStyle = {
-    lineHeight: "0",
-    margin: "0",
+    lineHeight: 0,
+    margin: 0,
     color: color,
-    fontSize: `${size / 1.5}vmin`,
+    fontSize: `${size / 1.8}vmin`,
   };
 
   return (
@@ -72,8 +75,8 @@ export default function StarRating({
 
 function Star({ onClick, full, onHover, onHoverOut, color, size }) {
   const starStyle = {
-    width: `${size}vmin`,
-    height: `${size}vmin`,
+   width: `clamp(4px, ${size}vmin, 48px)`,
+  height: `clamp(4px, ${size}vmin, 48px)`,
     display: "block",
     cursor: "pointer",
   };
