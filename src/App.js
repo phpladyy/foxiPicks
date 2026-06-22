@@ -173,6 +173,7 @@ function SelectedMovie({ selectedId, onCloseMovie, onAddWatched, watched }) {
     onCloseMovie();
   }
 
+  // fetching selected movie details
   useEffect(() => {
     async function getDetails() {
       setIsLoading(true);
@@ -188,13 +189,18 @@ function SelectedMovie({ selectedId, onCloseMovie, onAddWatched, watched }) {
     getDetails();
   }, [selectedId]);
 
+  //web page title changer
   useEffect(() => {
     document.title = title ? title : "Loading...";
+
+    return () => {
+      document.title = "Foxie's Watchlist";
+    };
   }, [title]);
 
   return (
     <div className="details">
-      {isLoading ? (
+      {isLoading ? ( 
         <Loader />
       ) : (
         <>
