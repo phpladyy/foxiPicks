@@ -192,7 +192,7 @@ function SelectedMovie({ selectedId, onCloseMovie, onAddWatched, watched }) {
   //web page title changer
   useEffect(() => {
     document.title = title ? title : "Loading...";
-
+//resetting title on onmount
     return () => {
       document.title = "Foxie's Watchlist";
     };
