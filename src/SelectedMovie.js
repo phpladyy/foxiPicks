@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { KEY, Loader } from "./App";
 import StarRating from "./StarRating";
+import { useKeyPress } from "./useKeyPress";
 
 export function SelectedMovie({
   selectedId,
@@ -38,8 +39,6 @@ export function SelectedMovie({
     Genre: genre,
   } = movie;
 
-  const isTop = imdbRating > 8;
-  console.log(isTop);
 
   function handleAdd() {
     const newWatchedMovie = {
@@ -56,21 +55,7 @@ export function SelectedMovie({
     onCloseMovie();
   }
 
-  //closing movie on escape key press
-  useEffect(
-    function () {
-      function closeOnEcape(e) {
-        if (e.code === "Escape") {
-          onCloseMovie();
-        }
-      }
-      document.addEventListener("keydown", closeOnEcape);
-      return function () {
-        document.removeEventListener("keydown", closeOnEcape);
-      };
-    },
-    [onCloseMovie],
-  );
+useKeyPress('Escape', onCloseMovie);
 
   // fetching selected movie details
   useEffect(() => {

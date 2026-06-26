@@ -9,6 +9,7 @@ import { SelectedMovie } from "./SelectedMovie";
 import { useMovies } from "./useMovies";
 import { useLocalStorage } from "./useLocalStorage";
 
+
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
