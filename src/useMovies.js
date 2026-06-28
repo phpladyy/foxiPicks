@@ -14,8 +14,6 @@ export function useMovies(query) {
           setIsLoading(true);
           setError("");
           const res = await fetch(
-            //for counting shows runtime handy query
-            //https://www.omdbapi.com/?apikey=4e376efd&i=tt3107288&episodes?&season=1
             `http://www.omdbapi.com/?s=${query}&&apikey=${KEY}`,
             { signal: controller.signal },
           );
