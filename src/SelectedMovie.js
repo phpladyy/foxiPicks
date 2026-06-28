@@ -14,7 +14,7 @@ export function SelectedMovie({
   const [userRating, setUserRating] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const isWatched = watched.map((item) => item.imdbID).includes(selectedId);
-  const url = `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`;
+  const url = `https://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`;
 
   const countRef = useRef(0);
   useEffect(() => {
