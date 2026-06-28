@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 export function useMovies(query) {
-
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -13,7 +12,7 @@ export function useMovies(query) {
           setIsLoading(true);
           setError("");
           const res = await fetch(
-            `https://www.omdbapi.com/?s=${query}&&apikey=${KEY}`,
+            `https://www.omdbapi.com/?s=${query}&&apikey=${process.env.REACT_APP_KEY}}`,
             { signal: controller.signal },
           );
 
