@@ -42,12 +42,6 @@ export default function StarRating({
     onsetUserRating(rate);
   }
 
-  const textStyle = {
-    lineHeight: 0,
-    margin: 0,
-    color: color,
-    fontSize: `${size / 1.8}vmin`,
-  };
 
   return (
     <div style={containerStyle} className={className}>

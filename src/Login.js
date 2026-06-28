@@ -1,75 +1,78 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import { useState, useEffect } from "react";
 import { Navbar } from "./Navbar";
-import { useLocalStorage } from "./useLocalStorage";
-import axios from "axios";
-import { SUPABASE_KEY } from "./App";
-import { SUPABASE_URL } from "./App";
+import supabase from "./supabase-client";
 
 export function Login({ setUserProfile, setSession }) {
   const [user, setUser] = useState(null);
 
-  const googleAuth  = useGoogleLogin({
+  const googleAuth = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log("Login Failed:", error),
   });
- 
-useEffect(() => {
-  if (!user) return;
 
-  axios.get(
-    `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
-    {
-      headers: {
-        Authorization: `Bearer ${user.access_token}`,
-        Accept: "application/json",
-      },
-    }
-  )
-  .then(async (res) => {
-    const userData = res.data;
+  useEffect(() => {
+    if (!user) return;
 
-    const { data: existingProfile } = await axios.get(
-      `${SUPABASE_URL}/rest/v1/profiles?id=eq.${userData.id}&select=*`,
-      {
-        headers: {
-          apikey: SUPABASE_KEY,
-          Authorization: `Bearer ${SUPABASE_KEY}`,
-        },
-      }
-    );
-
-    if (existingProfile[0]) {
-      // login handler
-      setSession(userData.id);
-      setUserProfile(existingProfile[0]);
-    } else {
-      // no account handler
-      const { data } = await axios.post(
-        `${SUPABASE_URL}/rest/v1/profiles`,
-        { id: userData.id, name: userData.name ,avatar: userData.picture },
-        {
-          headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`,
-            "Content-Type": "application/json",
-            Prefer: "return=representation",
+    const login = async () => {
+      try {
+        const res = await fetch(
+          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.access_token}`,
+              Accept: "application/json",
+            },
           },
-        }
-      );
-      setSession(userData.id);
-      setUserProfile(data[0]);
-    }
-  })
-  .catch((err) => console.log("error:", err.response?.data));
-}, [user]);
+        );
+        const userData = await res.json();
+        console.log(userData);
+        const { data: existingProfile, error } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", userData.id)
+          .maybeSingle();
 
-return (
-  <div>
-    <Navbar>
-      <h1>Login to access webpage</h1>
-      <button className="btn-switch" onClick={() => googleAuth()}>Login</button>
-    </Navbar>
-  </div>
-);
+        if (error) {
+          console.log("fetch profile error:", error);
+          return;
+        }
+        if (existingProfile) {
+          // login handler
+          setSession(userData.id);
+          setUserProfile(existingProfile);
+        } else {
+          // no account handler
+          const { data } = await supabase
+            .from("profiles")
+            .insert([
+              {
+                id: userData.id,
+                name: userData.name,
+                avatar: userData.picture,
+                watched_movies: [],
+              },
+            ])
+            .select()
+            .maybeSingle();
+          setSession(userData.id);
+          setUserProfile(data);
+        }
+      } catch (err) {
+        console.log("error:", err);
+      }
+    };
+    login();
+  }, [user, setSession, setUserProfile]);
+
+  return (
+    <div>
+      <Navbar>
+        <h1>Login to access webpage</h1>
+        <button className="btn-switch" onClick={() => googleAuth()}>
+          Login
+        </button>
+      </Navbar>
+    </div>
+  );
 }

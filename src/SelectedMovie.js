@@ -2,9 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { KEY, Loader } from "./App";
 import StarRating from "./StarRating";
 import { useKeyPress } from "./useKeyPress";
-import axios from "axios";
-import { SUPABASE_KEY } from "./App";
-import { SUPABASE_URL } from "./App";
 
 export function SelectedMovie({
   selectedId,
@@ -44,8 +41,7 @@ export function SelectedMovie({
   } = movie;
 
 
-
-  function handleAdd() {
+  const handleAdd = async () => {
     const newWatchedMovie = {
       userRating,
       imdbID: selectedId,
