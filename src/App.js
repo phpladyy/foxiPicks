@@ -9,6 +9,7 @@ import { useMovies } from "./useMovies";
 import { useLocalStorage } from "./useLocalStorage";
 import { ModeSwitch } from "./ModeSwitch";
 import { Login } from "./Login";
+import { updateWatched, useWatchedSetter } from "./updateWatched";
 
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -20,7 +21,6 @@ export default function App() {
   const [selectedId, setSelectedId] = useState(null);
   const { movies, isLoading, error } = useMovies(query);
   const [watched, setWatched] = useState([]);
-  const [authChecked, setAuthChecked] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
   const [session, setSession] = useLocalStorage(null, "sessionId");
 
@@ -31,7 +31,6 @@ export default function App() {
     });
     const { watched, error } = await res.json();
     if (error) {
-      
       console.log(error);
       return;
     }
@@ -54,7 +53,6 @@ export default function App() {
       }
       if (data) {
         setUserProfile(data);
-        setAuthChecked(true);
         await fetchWatchedlist();
       } else {
         setSession(null);
@@ -65,30 +63,16 @@ export default function App() {
   }, [session, setSession, fetchWatchedlist]);
 
   async function handleAddWatched(movie) {
-     setWatched((prev) => [...prev, movie]); console.log(authChecked)
-    const res = await fetch("/.netlify/functions/addWatched", {
-      method: "POST",
-      body: JSON.stringify({ session, watched, movie }),
-    });
-    const { error } = await res.json();
-    if (error) {
-      console.log(error);
-      return;
-    }
+    const update = [...watched, movie];
+    setWatched(update);
+    await updateWatched(session, update, "addWatched", movie);
   }
 
   async function handleRemoveWatched(e, id) {
     e.stopPropagation();
-    setWatched((prev) => prev.filter((item)=>item.imdbID!==id)); 
-    const res = await fetch("/.netlify/functions/removeWatched", {
-      method: "POST",
-      body: JSON.stringify({ session, watched, imdbID: id }),
-    });
-    const { error } = await res.json();
-    if (error) {
-      console.log(error);
-      return;
-    }
+    const update = watched.filter((item) => item.imdbID !== id);
+    setWatched(update);
+    await updateWatched(session, update,'removeWatched');
   }
 
   function handleMovieSelect(id) {
@@ -102,7 +86,6 @@ export default function App() {
   return (
     <>
       {!session ? (
-        
         <Login setUserProfile={setUserProfile} setSession={setSession} />
       ) : (
         <>

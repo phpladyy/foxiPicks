@@ -1,12 +1,12 @@
 import supabase from "./supabaseClient.mjs";
 
 const removeWatched = async (req) => {
-  const { session, watched, imdbID } = await req.json();
+  const { session, watched } = await req.json();
 
   const { error } = await supabase
     .from("profiles")
     .update({
-      watched_movies: watched.filter((item) => item.imdbID !== imdbID),
+      watched_movies: watched,
     })
     .eq("id", session);
 
