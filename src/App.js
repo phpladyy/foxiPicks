@@ -9,7 +9,7 @@ import { useMovies } from "./useMovies";
 import { useLocalStorage } from "./useLocalStorage";
 import { ModeSwitch } from "./ModeSwitch";
 import { Login } from "./Login";
-import { updateWatched, useWatchedSetter } from "./updateWatched";
+import { updateWatched} from "./updateWatched";
 
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
