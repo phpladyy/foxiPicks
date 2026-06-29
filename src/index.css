@@ -75,7 +75,7 @@ body {
 .nav-bar {
   color: #000000;
   display: grid;
-  grid-template-columns: 1fr 1fr 0.4fr 0.6fr;
+  grid-template-columns: 0.6fr 1.6fr 0.4fr 0.4fr;
   align-items: center;
   height: 7.2rem;
   padding: 0 3.2rem;
@@ -121,6 +121,7 @@ body {
 }
 
 .logo {
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.8rem;

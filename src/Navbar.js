@@ -1,14 +1,19 @@
-export function Navbar({ children }) {
+export function Navbar({ children, setQuery, setSelectedId }) {
+    function handleLogoClick() {
+      console.log('hi')
+    setQuery("movie");
+    setSelectedId(null);
+  }
   return (
     <nav className="nav-bar">
-      <Logo />
+      <Logo onClick={handleLogoClick}/>
       {children}
     </nav>
   );
 }
-function Logo() {
+function Logo({onClick}) {
   return (
-    <div className="logo">
+    <div className="logo" onClick={onClick}>
       <span role="img">🍿</span>
       <h1>Foxi Watchers</h1>
     </div>

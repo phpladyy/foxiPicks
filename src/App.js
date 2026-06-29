@@ -89,7 +89,7 @@ export default function App() {
         <Login setUserProfile={setUserProfile} setSession={setSession} />
       ) : (
         <>
-          <Navbar>
+          <Navbar setSelectedId={setSelectedId} setQuery={setQuery} >
             <SearchBar query={query} setQuery={setQuery} />
             <ModeSwitch />
             <UserTab userProfile={userProfile} />
