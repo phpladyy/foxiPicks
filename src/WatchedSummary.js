@@ -8,7 +8,7 @@ export function WatchedSummary({ watched}) {
 
   return (
     <div className="summary">
-      <h2>Movies you watched</h2>
+      <h2>Watch history</h2>
       <div>
         <p>
           <span>{watched.length} movies</span>
