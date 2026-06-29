@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { KEY, Loader } from "./App";
+import { Loader } from "./App";
 import StarRating from "./StarRating";
 import { useKeyPress } from "./useKeyPress";
 
@@ -8,13 +8,12 @@ export function SelectedMovie({
   onCloseMovie,
   onAddWatched,
   watched,
-  userProfile
+  userProfile,
 }) {
   const [movie, setMovie] = useState({});
   const [userRating, setUserRating] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const isWatched = watched.map((item) => item.imdbID).includes(selectedId);
-  const url = `https://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`;
 
   const countRef = useRef(0);
   useEffect(() => {
@@ -40,7 +39,6 @@ export function SelectedMovie({
     Genre: genre,
   } = movie;
 
-
   const handleAdd = async () => {
     const newWatchedMovie = {
       userRating,
@@ -52,24 +50,44 @@ export function SelectedMovie({
       runtime: Number(runtime.split(" ").at(0)),
       countRatingChanges: countRef.current,
     };
-    
+
     onAddWatched(newWatchedMovie);
     onCloseMovie();
-  }
+  };
 
-useKeyPress('Escape', onCloseMovie);
+  useKeyPress("Escape", onCloseMovie);
 
   // fetching selected movie details
   useEffect(() => {
+    const controller = new AbortController();
+    setIsLoading(true);
     async function getDetails() {
-      setIsLoading(true);
-      const detailsRaw = await fetch(url);
-      const movieDetails = await detailsRaw.json();
-      setMovie((movie) => movieDetails);
-      setIsLoading(false);
+      try {
+        const detailsRaw = await fetch(
+          `/.netlify/functions/selectMovie?i=${selectedId}`,
+          { signal: controller.signal },
+        );
+        if (!detailsRaw.ok)
+          throw new Error("something went wrong with fetching");
+        const movieDetails = await detailsRaw.json();
+        console.log(movieDetails);
+        if (movieDetails.Response === "False")
+          throw new Error("Movie not found");
+        setMovie((movie) => movieDetails);
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          console.log(err.message);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
+      }
     }
+    setIsLoading(true);
     getDetails();
-  }, [url]);
+    return () => controller.abort();
+  }, [selectedId]);
 
   //web page title changer
   useEffect(() => {

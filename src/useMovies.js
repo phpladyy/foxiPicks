@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { KEY } from "./App";
+
 export function useMovies(query) {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -13,12 +13,13 @@ export function useMovies(query) {
           setIsLoading(true);
           setError("");
           const res = await fetch(
-            `https://www.omdbapi.com/?s=${query}&&apikey=${KEY}`,
+            `/.netlify/functions/searchMovies?q=${query}`,
             { signal: controller.signal },
           );
 
           if (!res.ok) throw new Error("something went wrong with fetching");
           const data = await res.json();
+          console.log(data);
           if (data.Response === "False") throw new Error("Movie not found");
 
           setMovies(data.Search);

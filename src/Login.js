@@ -1,7 +1,6 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import { useState, useEffect } from "react";
 import { Navbar } from "./Navbar";
-import supabase from "./supabase-client";
 
 export function Login({ setUserProfile, setSession }) {
   const [user, setUser] = useState(null);
@@ -16,48 +15,18 @@ export function Login({ setUserProfile, setSession }) {
 
     const login = async () => {
       try {
-        const res = await fetch(
-          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.access_token}`,
-              Accept: "application/json",
-            },
-          },
-        );
-        const userData = await res.json();
-        console.log(userData);
-        const { data: existingProfile, error } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", userData.id)
-          .maybeSingle();
+        const res = await fetch(`/.netlify/functions/login`, {
+          method: "POST",
+          body: JSON.stringify({ access_token: user.access_token }),
+        });
+        const { profile, sessionId, error } = await res.json();
 
         if (error) {
           console.log("fetch profile error:", error);
           return;
         }
-        if (existingProfile) {
-          // login handler
-          setSession(userData.id);
-          setUserProfile(existingProfile);
-        } else {
-          // no account handler
-          const { data } = await supabase
-            .from("profiles")
-            .insert([
-              {
-                id: userData.id,
-                name: userData.name,
-                avatar: userData.picture,
-                watched_movies: [],
-              },
-            ])
-            .select()
-            .maybeSingle();
-          setSession(userData.id);
-          setUserProfile(data);
-        }
+        setSession(sessionId);
+        setUserProfile(profile);
       } catch (err) {
         console.log("error:", err);
       }

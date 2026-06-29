@@ -9,13 +9,10 @@ import { useMovies } from "./useMovies";
 import { useLocalStorage } from "./useLocalStorage";
 import { ModeSwitch } from "./ModeSwitch";
 import { Login } from "./Login";
-import supabase from "./supabase-client";
 
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
-
 export const KEY = process.env.REACT_APP_KEY;
-
 export const Loader = () => <p className="loader">Loading...</p>;
 
 export default function App() {
@@ -28,35 +25,28 @@ export default function App() {
   const [session, setSession] = useLocalStorage(null, "sessionId");
 
   const fetchWatchedlist = useCallback(async () => {
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("watched_movies")
-      .eq("id", session);
+    const res = await fetch("/.netlify/functions/getWatchedlist", {
+      method: "POST",
+      body: JSON.stringify({ session }),
+    });
+    const { watched, error } = await res.json();
     if (error) {
-      console.log("fetch error:", error);
+      console.log(error);
       return;
     }
-    if (!data || data.length === 0) {
-      return;
-    }
-    setWatched(data[0].watched_movies || []);
+    setWatched(watched);
   }, [session]);
-
-  useEffect(() => {
-    if (!session) return;
-    fetchWatchedlist();
-  }, [session, fetchWatchedlist]);
 
   useEffect(() => {
     if (!session) {
       return;
     }
     const fetchData = async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", session)
-        .maybeSingle();
+      const rawData = await fetch("/.netlify/functions/getProfile", {
+        method: "POST",
+        body: JSON.stringify({ session }),
+      });
+      const { data, error } = await rawData.json();
       if (error) {
         console.log("fetch user error:", error);
         return;
@@ -64,37 +54,39 @@ export default function App() {
       if (data) {
         setUserProfile(data);
         setAuthChecked(true);
+        await fetchWatchedlist();
       } else {
         setSession(null);
         setUserProfile(null);
       }
     };
     fetchData();
-  }, [session, setSession]);
+  }, [session, setSession, fetchWatchedlist]);
 
   async function handleAddWatched(movie) {
-    const { error } = await supabase
-      .from("profiles")
-      .update({ watched_movies: [...watched, movie] })
-      .eq("id", session);
-
+     setWatched((prev) => [...prev, movie]); 
+    const res = await fetch("/.netlify/functions/addWatched", {
+      method: "POST",
+      body: JSON.stringify({ session, watched, movie }),
+    });
+    const { error } = await res.json();
     if (error) {
-      console.log("err adding movie:", error);
-    } else {
-      fetchWatchedlist();
+      console.log(error);
+      return;
     }
   }
+
   async function handleRemoveWatched(e, id) {
     e.stopPropagation();
-
-    const { error } = await supabase
-      .from("profiles")
-      .update({ watched_movies: watched.filter((item) => item.imdbID !== id) })
-      .eq("id", session);
+    setWatched((prev) => prev.filter((item)=>item.imdbID!==id)); 
+    const res = await fetch("/.netlify/functions/removeWatched", {
+      method: "POST",
+      body: JSON.stringify({ session, watched, imdbID: id }),
+    });
+    const { error } = await res.json();
     if (error) {
-      console.log("err removing movie:", error);
-    } else {
-      fetchWatchedlist();
+      console.log(error);
+      return;
     }
   }
 
