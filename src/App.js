@@ -10,6 +10,7 @@ import { useLocalStorage } from "./useLocalStorage";
 import { ModeSwitch } from "./ModeSwitch";
 import { Login } from "./Login";
 import { updateWatched } from "./updateWatched";
+import { UserTab } from "./UserTab";
 
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -92,7 +93,11 @@ export default function App() {
           <Navbar setSelectedId={setSelectedId} setQuery={setQuery}>
             <SearchBar query={query} setQuery={setQuery} />
             <ModeSwitch />
-            <UserTab userProfile={userProfile} setUserProfile={setUserProfile} setSession={setSession} />
+            <UserTab
+              userProfile={userProfile}
+              setUserProfile={setUserProfile}
+              setSession={setSession}
+            />
           </Navbar>
 
           <Main>
@@ -135,45 +140,7 @@ export default function App() {
 
 const ErrorMessage = ({ message }) => <p className="error">{message}</p>;
 
-function UserTab({ userProfile, setUserProfile, setSession }) {
-  const [isOpened, setIsOpened] = useState(false);
-  function handlePopUp(){
-    setIsOpened((isOpened)=>!isOpened);
-  }
-  if (!userProfile) return;
-  function handleLogout() {
-    setUserProfile(null);
-    setSession(null);
-  }
-  function ShowProfile() {
-    if (!isOpened) {
-      return;
-    }
-    return (
-      <div className="screenCover">
-      <div className="userPopup">
-        <button className="btn-back" onClick={handlePopUp}>&times;</button>
-        <img src={userProfile.avatar} alt={userProfile.name} />
-        <h1>{userProfile.name}</h1>
-        <h2>Movies Watched: {userProfile.watched_movies.length}</h2>
-        <h3>Created at: {userProfile.created_at.split("T")[0]}</h3>
-        <button className="btn-logout" onClick={handleLogout}>Logout</button>
-      </div>
-      </div>
-    );
-  }
-  return (
-    <>
-    <img
-      onClick={handlePopUp}
-      className="nav-profile-picture"
-      src={userProfile.avatar}
-      alt={userProfile.name}
-      />
-      <ShowProfile/>
-      </>
-  );
-}
+
 
 const Main = ({ children }) => <main className="main">{children}</main>;
 
