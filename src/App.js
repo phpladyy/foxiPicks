@@ -24,9 +24,8 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
   const [session, setSession] = useLocalStorage(null, "sessionId");
-
   const fetchWatchedlist = useCallback(async () => {
-    const res = await fetch("/.netlify/functions/getWatchedlist", {
+    const res = await fetch(`/.netlify/functions/getMovieColumn?t=watched_movies`, {
       method: "POST",
       body: JSON.stringify({ session }),
     });
@@ -139,8 +138,6 @@ export default function App() {
 }
 
 const ErrorMessage = ({ message }) => <p className="error">{message}</p>;
-
-
 
 const Main = ({ children }) => <main className="main">{children}</main>;
 
