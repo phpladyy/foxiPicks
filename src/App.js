@@ -9,7 +9,7 @@ import { useMovies } from "./useMovies";
 import { useLocalStorage } from "./useLocalStorage";
 import { ModeSwitch } from "./ModeSwitch";
 import { Login } from "./Login";
-import { updateWatched} from "./updateWatched";
+import { updateWatched } from "./updateWatched";
 
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -72,7 +72,7 @@ export default function App() {
     e.stopPropagation();
     const update = watched.filter((item) => item.imdbID !== id);
     setWatched(update);
-    await updateWatched(session, update,'removeWatched');
+    await updateWatched(session, update, "removeWatched");
   }
 
   function handleMovieSelect(id) {
@@ -89,10 +89,10 @@ export default function App() {
         <Login setUserProfile={setUserProfile} setSession={setSession} />
       ) : (
         <>
-          <Navbar setSelectedId={setSelectedId} setQuery={setQuery} >
+          <Navbar setSelectedId={setSelectedId} setQuery={setQuery}>
             <SearchBar query={query} setQuery={setQuery} />
             <ModeSwitch />
-            <UserTab userProfile={userProfile} />
+            <UserTab userProfile={userProfile} setUserProfile={setUserProfile} setSession={setSession} />
           </Navbar>
 
           <Main>
@@ -135,14 +135,43 @@ export default function App() {
 
 const ErrorMessage = ({ message }) => <p className="error">{message}</p>;
 
-function UserTab({ userProfile }) {
+function UserTab({ userProfile, setUserProfile, setSession }) {
+  const [isOpened, setIsOpened] = useState(false);
+  function handlePopUp(){
+    setIsOpened((isOpened)=>!isOpened);
+  }
   if (!userProfile) return;
+  function handleLogout() {
+    setUserProfile(null);
+    setSession(null);
+  }
+  function ShowProfile() {
+    if (!isOpened) {
+      return;
+    }
+    return (
+      <div className="screenCover">
+      <div className="userPopup">
+        <button className="btn-back" onClick={handlePopUp}>&times;</button>
+        <img src={userProfile.avatar} alt={userProfile.name} />
+        <h1>{userProfile.name}</h1>
+        <h2>Movies Watched: {userProfile.watched_movies.length}</h2>
+        <h3>Created at: {userProfile.created_at.split("T")[0]}</h3>
+        <button className="btn-logout" onClick={handleLogout}>Logout</button>
+      </div>
+      </div>
+    );
+  }
   return (
+    <>
     <img
+      onClick={handlePopUp}
       className="nav-profile-picture"
       src={userProfile.avatar}
       alt={userProfile.name}
-    />
+      />
+      <ShowProfile/>
+      </>
   );
 }
 

@@ -84,10 +84,41 @@ body {
 }
 .nav-profile-picture {
   justify-self: end;
-  height: 5rem;      /* dopasowane do wysokości navbara */
+  height: 5rem; /* for fitting in navbar */
   width: auto;
   object-fit: contain;
   display: block;
+  cursor: pointer;
+}
+.screenCover{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+ background-color: rgba(0, 0, 0, 0.562);
+}
+.userPopup {
+  font-size: 3vmin;
+  text-align: center;
+  color: #ffffff;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 86vmin;
+  height: 70vmin;
+  background-color: var(--color-background-500);
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+.userPopup>img {
+  width: 25vmin;
 }
 .main {
   margin-top: 2.4rem;
@@ -334,7 +365,7 @@ body {
 }
 
 .btn-add,
-.btn-switch {
+.btn-switch, .btn-logout {
   background-color: var(--color-primary);
   color: var(--color-text);
   border: none;
@@ -346,7 +377,8 @@ body {
   transition: all 0.3s;
 }
 
-.btn-add:hover, .btn-switch:hover{
+.btn-add:hover,
+.btn-switch:hover {
   background-color: var(--color-primary-light);
 }
 
@@ -380,8 +412,15 @@ body {
   align-items: center;
   justify-content: center;
 }
-.btn-switch {
+.btn-switch,.btn-logout {
   border-radius: 1rem;
   margin-left: 0.4vw;
   background-color: var(--color-background-900);
+}
+
+.btn-logout{
+  font-size: 3vmin;
+  margin: 1vmin;
+  width: 18vmin;
+  background-color: var(--color-primary);
 }
