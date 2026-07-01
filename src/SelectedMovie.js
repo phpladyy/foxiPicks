@@ -6,14 +6,18 @@ import { useKeyPress } from "./useKeyPress";
 export function SelectedMovie({
   selectedId,
   onCloseMovie,
-  onAddWatched,
+  onAddMovie,
   watched,
+  watchlist,
   userProfile,
 }) {
   const [movie, setMovie] = useState({});
   const [userRating, setUserRating] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const isWatched = watched.map((item) => item.imdbID).includes(selectedId);
+  const isWatchlisted = watchlist
+    .map((item) => item.imdbID)
+    .includes(selectedId);
 
   const countRef = useRef(0);
   useEffect(() => {
@@ -39,8 +43,9 @@ export function SelectedMovie({
     Genre: genre,
   } = movie;
 
-  const handleAdd = async () => {
-    const newWatchedMovie = {
+  //for appending to watched and watchlist column
+  const handleAdd = async (action, setList) => {
+    const newMovie = {
       userRating,
       imdbID: selectedId,
       title,
@@ -50,8 +55,7 @@ export function SelectedMovie({
       runtime: Number(runtime.split(" ").at(0)),
       countRatingChanges: countRef.current,
     };
-
-    onAddWatched(newWatchedMovie);
+    onAddMovie(newMovie, action, setList);
     onCloseMovie();
   };
 
@@ -117,7 +121,7 @@ export function SelectedMovie({
               <p>{genre}</p>
               <p>
                 <span>⭐</span>
-                {imdbRating} Rating
+                {imdbRating} IMDb Rating
               </p>
             </div>
           </header>
@@ -131,14 +135,28 @@ export function SelectedMovie({
                     onsetUserRating={setUserRating}
                   />
                   {userRating && (
-                    <button className="btn-add" onClick={handleAdd}>
-                      Add to watched-list
+                    <button
+                      className="btn-add"
+                      onClick={() =>
+                        handleAdd("changeWatchedColumn", "setWatched")
+                      }
+                    >
+                      Add to Watch History
                     </button>
                   )}
                 </>
               ) : (
                 <p>You already rated this movie {userRate} stars</p>
               )}
+              {!isWatched && !userRating && !isWatchlisted && (
+                <button
+                  className="btn-add"
+                  onClick={() => handleAdd("addWatchlist", "setWatchlist")}
+                >
+                  Add to Watchlist
+                </button>
+              )}
+              {isWatchlisted && <p>Movie from watchlist</p>}
             </div>
             <p>
               <em>{plot}</em>

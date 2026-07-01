@@ -1,3 +1,7 @@
-export function ModeSwitch() {
-  return <button className="btn-switch">My Watchlist</button>;
+export function ModeSwitch({ setMode, mode }) {
+  return (
+    <button className="btn-switch" onClick={() => setMode((mode) => !mode)}>
+      {mode ? 'My Watchlist':'Watch historiy'}
+    </button>
+  );
 }

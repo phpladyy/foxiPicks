@@ -1,10 +1,18 @@
-export function WatchedList({ watched, onRemoveWatched, onMovieSelect }) {
+export function UserList({
+  watched,
+  onRemoveWatched,
+  onRemoveWatchlist,
+  onMovieSelect,
+  mode,
+}) {
   return (
     <ul className="list list-movies">
       {watched.map((movie) => (
         <WatchedItem
+          mode={mode}
           key={movie.imdbID}
           movie={movie}
+          onRemoveWatchlist={onRemoveWatchlist}
           onRemoveWatched={onRemoveWatched}
           handleMovieSelect={onMovieSelect}
         />
@@ -12,7 +20,17 @@ export function WatchedList({ watched, onRemoveWatched, onMovieSelect }) {
     </ul>
   );
 }
-function WatchedItem({ movie, onRemoveWatched, handleMovieSelect }) {
+function WatchedItem({
+  movie,
+  onRemoveWatchlist,
+  onRemoveWatched,
+  addWatchlist,
+  handleMovieSelect,
+  mode,
+}) {
+  function handleRemove(e, id) {
+    mode ? onRemoveWatched(e, id) : onRemoveWatchlist(e, id);
+  }
   return (
     <li onClick={() => handleMovieSelect(movie.imdbID)}>
       <img src={movie.poster} alt={`${movie.title} poster`} />
@@ -22,10 +40,12 @@ function WatchedItem({ movie, onRemoveWatched, handleMovieSelect }) {
           <span>⭐️</span>
           <span>{movie.imdbRating}</span>
         </p>
-        <p>
-          <span>🌟</span>
-          <span>{movie.userRating}</span>
-        </p>
+        {mode && (
+          <p>
+            <span>🌟</span>
+            <span>{movie.userRating}</span>
+          </p>
+        )}
         <p>
           <span>⏳</span>
           <span>{movie.runtime} min</span>
@@ -33,7 +53,7 @@ function WatchedItem({ movie, onRemoveWatched, handleMovieSelect }) {
         <p>
           <button
             className="btn-delete"
-            onClick={(e) => onRemoveWatched(e,movie.imdbID)}
+            onClick={(e) => handleRemove(e, movie.imdbID)}
           >
             &times;
           </button>

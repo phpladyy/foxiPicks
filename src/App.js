@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchBar } from "./SearchBar";
 import { WatchedSummary } from "./WatchedSummary";
-import { WatchedList } from "./WatchedList";
+import { UserList } from "./UserList";
 import { MovieList } from "./MovieList";
 import { Navbar } from "./Navbar";
 import { SelectedMovie } from "./SelectedMovie";
@@ -9,8 +9,9 @@ import { useMovies } from "./useMovies";
 import { useLocalStorage } from "./useLocalStorage";
 import { ModeSwitch } from "./ModeSwitch";
 import { Login } from "./Login";
-import { updateWatched } from "./updateWatched";
+import { updateTable } from "./updateTable";
 import { UserTab } from "./UserTab";
+import { fetchData } from "./fetchData";
 
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -18,63 +19,64 @@ export const KEY = process.env.REACT_APP_KEY;
 export const Loader = () => <p className="loader">Loading...</p>;
 
 export default function App() {
+  const [mode, setMode] = useState(false);
   const [query, setQuery] = useState("movie");
   const [selectedId, setSelectedId] = useState(null);
   const { movies, isLoading, error } = useMovies(query);
   const [watched, setWatched] = useState([]);
+  const [watchlist, setWatchlist] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
   const [session, setSession] = useLocalStorage(null, "sessionId");
-  const fetchWatchedlist = useCallback(async () => {
-    const res = await fetch(`/.netlify/functions/getMovieColumn?t=watched_movies`, {
-      method: "POST",
-      body: JSON.stringify({ session }),
-    });
-    const { watched, error } = await res.json();
-    if (error) {
-      console.log(error);
-      return;
-    }
-    setWatched(watched);
-  }, [session]);
 
   useEffect(() => {
     if (!session) {
       return;
     }
-    const fetchData = async () => {
-      const rawData = await fetch("/.netlify/functions/getProfile", {
-        method: "POST",
-        body: JSON.stringify({ session }),
-      });
-      const { data, error } = await rawData.json();
-      if (error) {
-        console.log("fetch user error:", error);
-        return;
-      }
+    const fetchUserData = async () => {
+      const data = await fetchData(session, "/.netlify/functions/getProfile");
       if (data) {
         setUserProfile(data);
-        await fetchWatchedlist();
+        console.log(data);
+        setWatched(data.watched_movies);
+        setWatchlist(data.watch_list);
       } else {
         setSession(null);
         setUserProfile(null);
       }
     };
-    fetchData();
-  }, [session, setSession, fetchWatchedlist]);
+    fetchUserData();
+  }, [session, setSession]);
 
-  async function handleAddWatched(movie) {
-    const update = [...watched, movie];
-    setWatched(update);
-    await updateWatched(session, update, "addWatched", movie);
+  async function handleAddMovie(movie, action, setList) {
+    const promises = [];
+    if (setList === "setWatched") {
+      const updatedWatchlist = watchlist.filter(
+        (item) => item.imdbID !== movie.imdbID,
+      );
+      setWatchlist(updatedWatchlist);
+      promises.push(updateTable(session, updatedWatchlist, "addWatchlist"));
+    }
+
+    const setColumn = setList === "setWatched" ? setWatched : setWatchlist;
+    const column = setList === "setWatched" ? watched : watchlist;
+    const update = [...column, movie];
+    setColumn(update);
+    promises.push(updateTable(session, update, action));
+    await Promise.all(promises);
   }
 
   async function handleRemoveWatched(e, id) {
     e.stopPropagation();
     const update = watched.filter((item) => item.imdbID !== id);
     setWatched(update);
-    await updateWatched(session, update, "removeWatched");
+    await updateTable(session, update, "changeWatchedColumn");
   }
-
+  async function handleRemoveWatchlist(e, id) {
+    e.stopPropagation();
+    const update = watchlist.filter((item) => item.imdbID !== id);
+    setWatchlist(update);
+    await updateTable(session, update, "addWatchlist");
+  }
   function handleMovieSelect(id) {
     selectedId === id ? setSelectedId(null) : setSelectedId(id);
   }
@@ -91,7 +93,7 @@ export default function App() {
         <>
           <Navbar setSelectedId={setSelectedId} setQuery={setQuery}>
             <SearchBar query={query} setQuery={setQuery} />
-            <ModeSwitch />
+            <ModeSwitch setMode={setMode} mode={mode} />
             <UserTab
               userProfile={userProfile}
               setUserProfile={setUserProfile}
@@ -116,15 +118,21 @@ export default function App() {
                   apiKey={KEY}
                   selectedId={selectedId}
                   onCloseMovie={handleCloseMovie}
-                  onAddWatched={handleAddWatched}
+                  onAddMovie={handleAddMovie}
                   watched={watched}
+                  watchlist={watchlist}
                 />
               ) : (
                 <>
-                  <WatchedSummary watched={watched} />
-                  <WatchedList
-                    watched={watched}
+                  <WatchedSummary
+                    userMovies={mode ? watched : watchlist}
+                    mode={mode}
+                  />
+                  <UserList
+                    mode={mode}
+                    watched={mode ? watched : watchlist}
                     onRemoveWatched={handleRemoveWatched}
+                    onRemoveWatchlist={handleRemoveWatchlist}
                     onMovieSelect={handleMovieSelect}
                   />
                 </>
@@ -138,9 +146,7 @@ export default function App() {
 }
 
 const ErrorMessage = ({ message }) => <p className="error">{message}</p>;
-
 const Main = ({ children }) => <main className="main">{children}</main>;
-
 function Panel({ children }) {
   return <div className="box">{children}</div>;
 }

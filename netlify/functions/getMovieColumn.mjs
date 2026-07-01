@@ -11,8 +11,8 @@ const getMovieColumn = async (req) => {
     .eq("id", session);
   if (error) return Response.json({ error: error.message }, { status: 500 });
   if (!data || data.length === 0) return Response.json({ watched: [] });
-
-  return Response.json({ watched: data[0].watched_movies || [] });
+console.log(data[0]);
+  return Response.json({ data: data[0].watched_movies || data[0].watch_list });
 };
 
 export default getMovieColumn;
