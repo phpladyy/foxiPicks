@@ -30,11 +30,7 @@ export function useMovies(query) {
           setIsLoading(false);
         }
       }
-      if (query.length < 2) {
-        setMovies([]);
-        setError("");
-        return;
-      }
+   
       fetchMovies();
       return function () {
         controller.abort();

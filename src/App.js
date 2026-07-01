@@ -20,7 +20,7 @@ export const Loader = () => <p className="loader">Loading...</p>;
 
 export default function App() {
   const [mode, setMode] = useState(false);
-  const [query, setQuery] = useState("movie");
+  const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const { movies, isLoading, error } = useMovies(query);
   const [watched, setWatched] = useState([]);

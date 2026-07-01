@@ -1,6 +1,6 @@
 const searchMovies = async (request) => {
   const url = new URL(request.url);
-  const query = url.searchParams.get("q");
+  const query = url.searchParams.get("q") || "movie";
 
   if (!query) {
     return new Response(JSON.stringify({ error: "empty query" }), {
@@ -10,7 +10,7 @@ const searchMovies = async (request) => {
   }
   try {
     const KEY = process.env.REACT_APP_KEY;
-    console.log(query.length);
+
     const res = await fetch(
       query.length > 2
         ? `https://www.omdbapi.com/?s=${query}*&apikey=${KEY}`
@@ -18,7 +18,7 @@ const searchMovies = async (request) => {
     );
     if (!res.ok) throw new Error("something went wrong with fetching");
     const data = await res.json();
-   
+
     return Response.json(data, { status: 200 });
   } catch (err) {
     return Response.json({ error: err.message }, { status: 500 });
