@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Loader } from "./App";
 import StarRating from "./StarRating";
 import { useKeyPress } from "./useKeyPress";
+import { CriticRatings } from "./CriticRatings";
 
 export function SelectedMovie({
   selectedId,
@@ -9,7 +10,9 @@ export function SelectedMovie({
   onAddMovie,
   watched,
   watchlist,
+  setWatchlist,
   userProfile,
+  onRemoveListItem,
 }) {
   const [movie, setMovie] = useState({});
   const [userRating, setUserRating] = useState(null);
@@ -18,13 +21,6 @@ export function SelectedMovie({
   const isWatchlisted = watchlist
     .map((item) => item.imdbID)
     .includes(selectedId);
-
-  const countRef = useRef(0);
-  useEffect(() => {
-    if (userRating) {
-      countRef.current = countRef.current + 1;
-    }
-  }, [userRating]);
 
   const userRate = watched.find(
     (movie) => movie.imdbID === selectedId,
@@ -36,13 +32,15 @@ export function SelectedMovie({
     Poster: poster,
     Runtime: runtime,
     imdbRating,
+    Ratings: ratings,
     Plot: plot,
     Released: released,
     Actors: actors,
     Director: director,
     Genre: genre,
   } = movie;
-
+  const rottenTomatoesRating = ratings?.[1]?.Value;
+  const metacriticRating = ratings?.[2]?.Value;
   //for appending to watched and watchlist column
   const handleAdd = async (list) => {
     const newMovie = {
@@ -52,8 +50,9 @@ export function SelectedMovie({
       year,
       poster,
       imdbRating: Number(imdbRating),
+      rottenTomatoesRating,
+      metacriticRating,
       runtime: Number(runtime.split(" ").at(0)),
-      countRatingChanges: countRef.current,
     };
     onAddMovie(newMovie, list);
     onCloseMovie();
@@ -74,6 +73,7 @@ export function SelectedMovie({
         if (!detailsRaw.ok)
           throw new Error("something went wrong with fetching");
         const movieDetails = await detailsRaw.json();
+        console.log(movieDetails.Ratings);
 
         if (movieDetails.Response === "False")
           throw new Error("Movie not found");
@@ -119,10 +119,11 @@ export function SelectedMovie({
                 {released} &sdot; {runtime}
               </p>
               <p>{genre}</p>
-              <p>
-                <span>⭐</span>
-                {imdbRating} IMDb Rating
-              </p>
+              <CriticRatings
+                imdbRating={imdbRating}
+                rottenTomatoesRating={rottenTomatoesRating}
+                metacriticRating={metacriticRating}
+              />
             </div>
           </header>
           <section>
@@ -137,9 +138,7 @@ export function SelectedMovie({
                   {userRating && (
                     <button
                       className="btn-add"
-                      onClick={() =>
-                        handleAdd("watched")
-                      }
+                      onClick={() => handleAdd("watched")}
                     >
                       Add to Watch History
                     </button>
@@ -156,7 +155,16 @@ export function SelectedMovie({
                   Add to Watchlist
                 </button>
               )}
-              {isWatchlisted && <p>Movie from watchlist</p>}
+              {isWatchlisted && (
+                <button
+                  className="btn-add"
+                  onClick={(e) =>
+                    onRemoveListItem(e, selectedId, watchlist, setWatchlist)
+                  }
+                >
+                  Remove from Watchlist
+                </button>
+              )}
             </div>
             <p>
               <em>{plot}</em>

@@ -108,6 +108,7 @@ export default function App() {
             <Panel>
               {selectedId ? (
                 <SelectedMovie
+                  onRemoveListItem={handleRemoveListItem}
                   userProfile={userProfile}
                   key={selectedId}
                   selectedId={selectedId}
@@ -115,6 +116,7 @@ export default function App() {
                   onAddMovie={handleAddMovie}
                   watched={watched}
                   watchlist={watchlist}
+                  setWatchlist={setWatchlist}
                 />
               ) : (
                 <>
