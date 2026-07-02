@@ -53,16 +53,14 @@ export default function App() {
         (item) => item.imdbID !== movie.imdbID,
       );
       setWatchlist(updatedWatchlist);
-      promises.push(
-        updateTable(session, updatedWatchlist, "editColumn", "watch_list"),
-      );
+      promises.push(updateTable(session, updatedWatchlist, "watch_list"));
     }
     const setColumn = list === "watched" ? setWatched : setWatchlist;
     const column = list === "watched" ? watched : watchlist;
     const update = [...column, movie];
     setColumn(update);
     const dbColumn = list === "watched" ? "watched_movies" : "watch_list";
-    promises.push(updateTable(session, update, "editColumn", dbColumn));
+    promises.push(updateTable(session, update, dbColumn));
     await Promise.all(promises);
   }
 
@@ -72,7 +70,7 @@ export default function App() {
     setList(update);
 
     const dbColumn = mode ? "watched_movies" : "watch_list";
-    await updateTable(session, update, "editColumn", dbColumn);
+    await updateTable(session, update, dbColumn);
   }
 
   function handleMovieSelect(id) {
