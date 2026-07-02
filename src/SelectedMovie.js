@@ -73,7 +73,6 @@ export function SelectedMovie({
         if (!detailsRaw.ok)
           throw new Error("something went wrong with fetching");
         const movieDetails = await detailsRaw.json();
-        console.log(movieDetails.Ratings);
 
         if (movieDetails.Response === "False")
           throw new Error("Movie not found");
