@@ -30,7 +30,7 @@ export function useMovies(query) {
           setIsLoading(false);
         }
       }
-   
+  
       fetchMovies();
       return function () {
         controller.abort();

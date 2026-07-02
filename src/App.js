@@ -65,17 +65,11 @@ export default function App() {
     await Promise.all(promises);
   }
 
-  async function handleRemoveWatched(e, id) {
+  async function handleRemoveListItem(e, id, action, list, setList) {
     e.stopPropagation();
-    const update = watched.filter((item) => item.imdbID !== id);
-    setWatched(update);
-    await updateTable(session, update, "changeWatchedColumn");
-  }
-  async function handleRemoveWatchlist(e, id) {
-    e.stopPropagation();
-    const update = watchlist.filter((item) => item.imdbID !== id);
-    setWatchlist(update);
-    await updateTable(session, update, "addWatchlist");
+    const update = list.filter((item) => item.imdbID !== id);
+    setList(update);
+    await updateTable(session, update, action);
   }
   function handleMovieSelect(id) {
     selectedId === id ? setSelectedId(null) : setSelectedId(id);
@@ -130,9 +124,9 @@ export default function App() {
                   />
                   <UserList
                     mode={mode}
-                    watched={mode ? watched : watchlist}
-                    onRemoveWatched={handleRemoveWatched}
-                    onRemoveWatchlist={handleRemoveWatchlist}
+                    list={mode ? watched : watchlist}
+                    setList={mode ? setWatched : setWatchlist}
+                    onRemoveListItem={handleRemoveListItem}
                     onMovieSelect={handleMovieSelect}
                   />
                 </>

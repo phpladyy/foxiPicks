@@ -1,20 +1,26 @@
 export function UserList({
-  watched,
-  onRemoveWatched,
-  onRemoveWatchlist,
+  watchlist,
+  list,
+  setWatchlist,
+  setList,
+  onRemoveListItem,
   onMovieSelect,
   mode,
 }) {
+  function handleRemove(e, id) {
+    mode
+      ? onRemoveListItem(e, id, "changeWatchedColumn", list, setList)
+      : onRemoveListItem(e, id, "addWatchlist", list,setList);
+  }
   return (
     <ul className="list list-movies">
-      {watched.map((movie) => (
+      {list.map((movie) => (
         <WatchedItem
           mode={mode}
           key={movie.imdbID}
           movie={movie}
-          onRemoveWatchlist={onRemoveWatchlist}
-          onRemoveWatched={onRemoveWatched}
           handleMovieSelect={onMovieSelect}
+          handleRemove={handleRemove}
         />
       ))}
     </ul>
@@ -22,15 +28,11 @@ export function UserList({
 }
 function WatchedItem({
   movie,
-  onRemoveWatchlist,
-  onRemoveWatched,
   addWatchlist,
   handleMovieSelect,
   mode,
+  handleRemove,
 }) {
-  function handleRemove(e, id) {
-    mode ? onRemoveWatched(e, id) : onRemoveWatchlist(e, id);
-  }
   console.log(movie);
   return (
     <li onClick={() => handleMovieSelect(movie.imdbID)}>
