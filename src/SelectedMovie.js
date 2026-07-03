@@ -27,7 +27,6 @@ export function SelectedMovie({
   )?.userRating;
 
   const {
-    Type: type,
     Rated: pegi,
     Title: title,
     Year: year,
