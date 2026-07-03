@@ -168,9 +168,16 @@ export function SelectedMovie({
                 </button>
               )}
 
-              {type==='movie' && <a className="btn-add" href={`https://multiembed.mov/?video_id=${selectedId}`}>
+              {type === "movie" && (
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-add"
+                  href={`https://multiembed.mov/?video_id=${selectedId}`}
+                >
                   Watch online
-                  </a>}
+                </a>
+              )}
             </div>
             <p>
               <em>{plot}</em>
