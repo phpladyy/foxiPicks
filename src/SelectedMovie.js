@@ -167,17 +167,6 @@ export function SelectedMovie({
                   Remove from Watchlist
                 </button>
               )}
-
-              {type === "movie" && (
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-add"
-                  href={`https://multiembed.mov/?video_id=${selectedId}`}
-                >
-                  Watch online
-                </a>
-              )}
             </div>
             <p>
               <em>{plot}</em>
