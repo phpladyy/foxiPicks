@@ -36,7 +36,7 @@ function WatchedItem({
       <h3>{movie.title}</h3>
       <div>
         <p>
-          <ImdbLogo width='2.5vw'/>
+          <ImdbLogo className="imdbLogo"/>
           {movie.imdbRating}
         </p>
         {mode ? (

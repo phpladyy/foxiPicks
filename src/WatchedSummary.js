@@ -15,7 +15,7 @@ export function WatchedSummary({ userMovies, mode }) {
           <span>{userMovies.length} movies</span>
         </p>
         <p title="Internet Movie Database Rating">
-          <ImdbLogo width='2.5vw'/>
+          <ImdbLogo className="imdbLogo"/>
           {avgImdbRating.toFixed(2)}
         </p>
         <p title="Total Watch time">

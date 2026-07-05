@@ -27,6 +27,7 @@ export default function App() {
   const [watchlist, setWatchlist] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
   const [session, setSession] = useLocalStorage(null, "sessionId");
+  const [mobileHide, setMobileHide] = useState("hiddenSearchPanel");
 
   useEffect(() => {
     if (!session) {
@@ -88,24 +89,53 @@ export default function App() {
       ) : (
         <>
           <Navbar setSelectedId={setSelectedId} setQuery={setQuery}>
-            <SearchBar query={query} setQuery={setQuery} />
-            <ModeSwitch setMode={setMode} mode={mode} />
+            <SearchBar
+              onClick={() => setMobileHide("hiddenUserList")}
+              query={query}
+              setQuery={setQuery}
+            />
+            <ModeSwitch
+              setMode={setMode}
+              mode={mode}
+              onClick={() => setMobileHide("hiddenSearchPanel")}
+            />
             <UserTab
               userProfile={userProfile}
               setUserProfile={setUserProfile}
               setSession={setSession}
             />
           </Navbar>
-
           <Main>
-            <Panel>
-              {isLoading && <Loader />}
-              {!isLoading && !error && (
-                <MovieList movies={movies} onMovieSelect={handleMovieSelect} />
+            <Panel
+              className={mobileHide === "hiddenSearchPanel" ? "hidden" : ""}
+            >
+              {selectedId && (
+                <div className="mobileOnly">
+                  <SelectedMovie
+                    onRemoveListItem={handleRemoveListItem}
+                    userProfile={userProfile}
+                    key={selectedId}
+                    selectedId={selectedId}
+                    onCloseMovie={handleCloseMovie}
+                    onAddMovie={handleAddMovie}
+                    watched={watched}
+                    watchlist={watchlist}
+                    setWatchlist={setWatchlist}
+                  />
+                </div>
               )}
-              {error && <ErrorMessage message={error} />}
+              <div className={selectedId ? "hidden" : ""}>
+                {isLoading && <Loader />}
+                {!isLoading && !error && (
+                  <MovieList
+                    movies={movies}
+                    onMovieSelect={handleMovieSelect}
+                  />
+                )}
+                {error && <ErrorMessage message={error} />}
+              </div>
             </Panel>
-            <Panel>
+            <Panel className={mobileHide === "hiddenUserList" ? "hidden" : ""}>
               {selectedId ? (
                 <SelectedMovie
                   onRemoveListItem={handleRemoveListItem}
@@ -143,6 +173,6 @@ export default function App() {
 
 const ErrorMessage = ({ message }) => <p className="error">{message}</p>;
 const Main = ({ children }) => <main className="main">{children}</main>;
-function Panel({ children }) {
-  return <div className="box">{children}</div>;
+function Panel({ children, className }) {
+  return <div className={`box ${className}`}>{children}</div>;
 }

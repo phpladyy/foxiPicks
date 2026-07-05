@@ -9,11 +9,11 @@ export function CriticRatings({
 }) {
   return (
     <p>
-      <ImdbLogo width="3vw" />
+      <ImdbLogo className="imdbLogo-big" />
       {imdbRating}
-      <RotenLogo width="2vw" />
+      <RotenLogo className="rateLogo" />
       {rottenTomatoesRating || "N/A"}
-      <MetacriticLogo width="2vw" />
+      <MetacriticLogo className="rateLogo" />
       {metacriticRating?.split("/")[0] || "N/A"}%
     </p>
   );

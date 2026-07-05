@@ -19,6 +19,11 @@
 html {
   font-size: 0.8vw;
 }
+@media (max-width: 800px) {
+  html {
+    font-size: 1.3vw;
+  }
+}
 
 body {
   font-family:
@@ -82,6 +87,13 @@ body {
   background-color: var(--color-primary);
   border-radius: 0.9rem;
 }
+@media (max-width: 800px) {
+  .nav-bar {
+    padding: 0 2.2rem;
+    height: 8rem;
+    grid-template-columns: 0.6fr 0.4fr 0.4fr 0.2fr;
+  }
+}
 .nav-profile-picture {
   border-radius: 10%;
   justify-self: end;
@@ -91,14 +103,14 @@ body {
   display: block;
   cursor: pointer;
 }
-.screenCover{
+.screenCover {
   position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
   z-index: 2;
- background-color: rgba(0, 0, 0, 0.562);
+  background-color: rgba(0, 0, 0, 0.562);
 }
 .userPopup {
   font-size: 3vmin;
@@ -118,7 +130,7 @@ body {
   transform: translate(-50%, -50%);
   z-index: 3;
 }
-.userPopup>img {
+.userPopup > img {
   border-radius: 10%;
   width: 25vmin;
 }
@@ -129,6 +141,14 @@ body {
   gap: 2.4rem;
   justify-content: center;
 }
+@media (max-width: 800px) {
+  .main {
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
 .box {
   scrollbar-gutter: stable;
   width: 34vw;
@@ -137,7 +157,11 @@ body {
   overflow: auto;
   position: relative;
 }
-
+@media (max-width: 800px) {
+  .box {
+    width: 82vw;
+  }
+}
 .loader {
   text-align: center;
   text-transform: uppercase;
@@ -174,12 +198,16 @@ body {
   padding: 1.1rem 1.6rem;
   font-size: 1.8rem;
   border-radius: 0.7rem;
-  width: 40rem;
+  width: 36vw;
   transition: all 0.3s;
   color: var(--color-text);
   background-color: var(--color-primary-light);
 }
-
+@media (max-width: 800px) {
+  .search {
+    width: 34vw;
+  }
+}
 .search::placeholder {
   color: var(--color-text-dark);
 }
@@ -229,7 +257,6 @@ body {
   column-gap: 2.4rem;
   font-size: 1.6rem;
   align-items: center;
-
   padding: 1.6rem 3.2rem;
   border-bottom: 1px solid var(--color-background-100);
 }
@@ -263,11 +290,24 @@ body {
   align-items: center;
   gap: 0.8rem;
 }
+@media (max-width: 800px) {
+  .list li {
+    grid-template-columns: 9vw 1fr;
+    font-size: 2.8rem;
+  }
+  .list h3 {
+    font-size: 3.1rem;
+  }
+  .list div {
+    display: flex;
+    align-items: center;
+    gap: 2.4rem;
+  }
+}
 
 .btn-delete {
   position: absolute;
   right: 2.4rem;
-
   height: 1.8rem;
   aspect-ratio: 1;
   border-radius: 50%;
@@ -278,6 +318,12 @@ body {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s;
+}
+@media (max-width: 800px) {
+  .btn-delete {
+    font-size: 2rem;
+    height: 2.8rem;
+  }
 }
 
 .btn-delete:hover {
@@ -310,12 +356,32 @@ body {
   align-items: center;
   gap: 0.8rem;
 }
-
-/* ******* */
+@media (max-width: 800px) {
+  .summary h2 {
+    font-size: 3.4vw;
+  }
+  .summary div {
+    font-size: 3vw;
+  }
+}
+.imdbLogo {
+  width: 2.5vw;
+}
+@media (max-width: 800px) {
+  .imdbLogo {
+    width: 5.5vw;
+  }
+  .imdbLogo-big {
+    width: 8.5vw;
+  }
+  .rateLogo {
+    width: 6vw;
+  }
+}
 
 .details {
   line-height: 1.4;
-  font-size: 1.4rem;
+  font-size: 2rem;
 }
 
 .details header {
@@ -354,6 +420,16 @@ body {
   gap: 0.8rem;
 }
 
+@media (max-width: 800px) {
+  .details-overview h2 {
+    font-size: 3.4rem;
+  }
+
+  .details-overview p {
+    font-size: 3vw;
+  }
+}
+
 .rating {
   background-color: var(--color-background-100);
   border-radius: 0.9rem;
@@ -365,8 +441,24 @@ body {
   gap: 2.4rem;
 }
 
+.star {
+  width: 23vw;
+  height: 1vw;
+  display: "block";
+  cursor: "pointer";
+}
+@media (max-width: 800px) {
+  .star {
+    width: 65vw;
+    height: 4vw;
+    display: "block";
+    cursor: "pointer";
+  }
+}
+
 .btn-add,
-.btn-switch, .btn-logout {
+.btn-switch,
+.btn-logout {
   text-align: center;
   text-decoration: none;
   background-color: var(--color-primary);
@@ -415,15 +507,29 @@ body {
   align-items: center;
   justify-content: center;
 }
-.btn-switch,.btn-logout {
+.btn-switch,
+.btn-logout {
   border-radius: 1rem;
   margin-left: 0.4vw;
   background-color: var(--color-background-900);
 }
 
-.btn-logout{
+.btn-logout {
   font-size: 3vmin;
   margin: 1vmin;
   width: 18vmin;
   background-color: var(--color-primary);
+}
+@media (max-width: 800px) {
+  .hidden {
+    display: none;
+  }
+}
+.hiddenPc {
+  display: none;
+}
+@media (min-width: 800px) {
+  .mobileOnly {
+    display: none;
+  }
 }

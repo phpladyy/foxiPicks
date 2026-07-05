@@ -132,6 +132,7 @@ export function SelectedMovie({
               {!isWatched ? (
                 <>
                   <StarRating
+                  className="star"
                     size={4}
                     maxRating={10}
                     onsetUserRating={setUserRating}

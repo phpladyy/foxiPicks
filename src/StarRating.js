@@ -63,16 +63,11 @@ export default function StarRating({
 }
 
 function Star({ onClick, full, onHover, onHoverOut, color, size }) {
-  const starStyle = {
-   width: `clamp(4px, ${size}vw, 3vw)`,
-  height: `clamp(4px, ${size}vw, 3vw)`,
-    display: "block",
-    cursor: "pointer",
-  };
+
   return (
     <span
+    className="star"
       role="button"
-      style={starStyle}
       onClick={onClick}
       onMouseEnter={onHover}
       onMouseLeave={onHoverOut}
