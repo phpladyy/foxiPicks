@@ -381,7 +381,12 @@ body {
 
 .details {
   line-height: 1.4;
-  font-size: 2rem;
+  font-size: 1.4rem;
+}
+@media (max-width: 800px) {
+  .details {
+  font-size: 2.4rem;
+}
 }
 
 .details header {
