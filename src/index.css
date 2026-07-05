@@ -299,11 +299,6 @@ body {
   .list h3 {
     font-size: 3.1rem;
   }
-  .list div {
-    display: flex;
-    align-items: center;
-    gap: 2.4rem;
-  }
 }
 
 .btn-delete {
@@ -544,5 +539,12 @@ body {
 @media (min-width: 800px) {
   .mobileOnly {
     display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .list-watched {
+    height: auto;
+    overflow: visible;
   }
 }
