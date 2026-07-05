@@ -544,6 +544,6 @@ body {
 
 @media (max-width: 800px) {
 .list {
-    padding-bottom: 5vw;
+    padding-bottom: 10vw;
   }
 }
