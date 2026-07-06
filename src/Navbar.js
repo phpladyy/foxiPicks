@@ -15,7 +15,7 @@ function Logo({ onClick }) {
   return (
     <div className="logo" onClick={onClick}>
       <span role="img">🍿</span>
-      <h1>Foxi Watchers</h1>
+      <h1>Foxi Picks</h1>
     </div>
   );
 }

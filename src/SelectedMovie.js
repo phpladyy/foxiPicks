@@ -99,7 +99,7 @@ export function SelectedMovie({
     document.title = title ? title : "Loading...";
     //resetting title on onmount
     return () => {
-      document.title = "Foxie's Watchlist";
+      document.title = "Foxi Picks";
     };
   }, [title]);
 
