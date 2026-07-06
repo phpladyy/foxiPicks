@@ -90,7 +90,6 @@ export default function App() {
  function handleSearchClick() {
     setSelectedId(null);
     setMobileHide("hiddenUserList")
-    setMode(true);
   }
   return (
     <>
@@ -98,13 +97,14 @@ export default function App() {
         <Login setUserProfile={setUserProfile} setSession={setSession} />
       ) : (
         <>
-          <Navbar setSelectedId={setSelectedId} setQuery={setQuery}>
+          <Navbar setMode={setMode} setSelectedId={setSelectedId} setQuery={setQuery} setMobileHide={setMobileHide}>
             <SearchBar
               onClick={() => handleSearchClick()}
               query={query}
               setQuery={setQuery}
             />
             <ModeSwitch
+              mobileHide={mobileHide}
               setMode={setMode}
               mode={mode}
               onClick={() => setMobileHide("hiddenSearchPanel")}

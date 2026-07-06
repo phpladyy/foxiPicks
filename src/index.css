@@ -521,6 +521,12 @@ body {
   margin-left: 0.4vw;
   background-color: var(--color-background-900);
 }
+/* @media (max-width: 800px) {
+  .btn-switch {
+    display: none;
+  }
+} */
+
 
 .btn-logout {
   font-size: 3vmin;

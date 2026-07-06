@@ -1,5 +1,6 @@
-export function Navbar({ children, setQuery, setSelectedId }) {
+export function Navbar({children, setQuery, setSelectedId, setMobileHide }) {
   function handleLogoClick() {
+    setMobileHide("hiddenUserList");
     setQuery("");
     setSelectedId(null);
   }
