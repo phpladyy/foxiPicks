@@ -119,7 +119,11 @@ export function SelectedMovie({
               <p>
                 {released} &sdot; {runtime} &sdot; {pegi}
               </p>
-              <p>{genre}</p>
+              <div className="genres">
+                {genre?.split(", ").map((genre) => (
+                  <p className="badge">{genre}</p>
+                ))}
+              </div>
               <CriticRatings
                 imdbRating={imdbRating}
                 rottenTomatoesRating={rottenTomatoesRating}
@@ -132,7 +136,7 @@ export function SelectedMovie({
               {!isWatched ? (
                 <>
                   <StarRating
-                  className="star"
+                    className="star"
                     size={4}
                     maxRating={10}
                     onsetUserRating={setUserRating}

@@ -19,8 +19,7 @@ export function WatchedSummary({ userMovies, mode }) {
           {avgImdbRating.toFixed(2)}
         </p>
         <p title="Total Watch time">
-          <span>⏳</span>
-          <span>{totalRuntime} min</span>
+          <span>{totalRuntime} min total</span>
         </p>
       </div>
     </div>

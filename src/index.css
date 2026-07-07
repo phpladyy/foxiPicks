@@ -1,11 +1,11 @@
 :root {
-  --color-primary: #ff8000;
-  --color-primary-light: #17191d;
-  --color-text: #dee2e6;
+  --color-primary: #CDB4DB;
+  --color-primary-light: #dbc7e7;
+  --color-text: #000000;
   --color-text-dark: #adb5bd;
-  --color-background-100: #2b2b2b;
-  --color-background-500: #1a1a1a;
-  --color-background-900: #000000;
+  --color-background-100: #ffafcc;
+  --color-background-500: #ffc8dd;
+  --color-background-900: #cdb4db;
   --color-red: #fa5252;
   --color-red-dark: #e03131;
 }
@@ -36,14 +36,13 @@ body {
   padding: 2.4rem;
 }
 
-/* Hide scrollbar*/
 * {
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
   transition: scrollbar-color 0.3s;
 
   &:hover {
-    scrollbar-color: black transparent;
+    scrollbar-color: #A2D2FF transparent;
   }
 
   &:not(:hover)::-webkit-scrollbar-thumb {
@@ -85,14 +84,14 @@ body {
   align-items: center;
   height: 7.2rem;
   padding: 0 3.2rem;
-  background-color: var(--color-primary);
+  background-color: #ffc8dd;
   border-radius: 0.9rem;
 }
 @media (max-width: 800px) {
   .nav-bar {
     padding: 0 1rem;
     height: 8rem;
-    grid-template-columns: 0.8fr 0.3fr 0.5fr 0.2fr;
+    grid-template-columns: 0.3fr 0.7fr 0.4fr 0.2fr;
   }
 }
 .nav-profile-picture {
@@ -116,14 +115,14 @@ body {
 .userPopup {
   font-size: 3vmin;
   text-align: center;
-  color: #ffffff;
+  color: #000000;
   align-items: center;
   display: flex;
   justify-content: center;
   flex-direction: column;
   width: 86vmin;
   height: 70vmin;
-  background-color: var(--color-background-500);
+  background-color: var(--color-background-900);
   border-radius: 5px;
   position: absolute;
   top: 50%;
@@ -255,10 +254,10 @@ body {
   display: grid;
   grid-template-columns: 4rem 1fr;
   grid-template-rows: auto auto;
-  column-gap: 2.4rem;
+  column-gap: 2rem;
   font-size: 1.6rem;
   align-items: center;
-  padding: 1.6rem 3.2rem;
+  padding: 1.2rem 2.2rem;
   border-bottom: 1px solid var(--color-background-100);
 }
 
@@ -307,9 +306,9 @@ body {
   height: 1.8rem;
   aspect-ratio: 1;
   border-radius: 50%;
-  border: none;
-  background-color: var(--color-red);
-  color: var(--color-background-900);
+  border: 1px solid gray;
+  background-color: #FF8FAB;
+  color: 'var(--color-background-900)';
   font-size: 0.9rem;
   font-weight: bold;
   cursor: pointer;
@@ -323,7 +322,7 @@ body {
 }
 
 .btn-delete:hover {
-  background-color: var(--color-red-dark);
+  background-color: var(--color-background-900);
 }
 
 .summary {
@@ -364,10 +363,11 @@ body {
   width: 2.5vw;
 }
 .rateLogo {
-    width: 2.5vw;
+    width: 2vw;
   }
   .imdbLogo-big {
-    width: 4vw;
+    color: #7B2CBF;
+    width: 3.5vw;
   }
 @media (max-width: 800px) {
   .imdbLogo {
@@ -380,7 +380,23 @@ body {
     width: 6vw;
   }
 }
-
+.genres{
+  display: flex;
+  gap: 0.5vw;
+}
+.badge{
+  padding: 0.2vw 0.7vw;
+  text-align: center;
+  border-radius: 999px;
+  align-self: flex-start;
+  display: inline-block;
+  background-color: #FFC8DD;
+}
+@media (max-width: 800px) {
+ .badge{
+  padding: 0.4vw 1.2vw;
+}
+}
 .details {
   line-height: 1.4;
   font-size: 1.4rem;
@@ -413,6 +429,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
+  overflow-x: hidden;
 }
 
 .details-overview h2 {
@@ -422,6 +439,7 @@ body {
 }
 
 .details-overview p {
+  color: gray;
   display: flex;
   align-items: center;
   gap: 0.8rem;
@@ -468,7 +486,7 @@ body {
 .btn-logout {
   text-align: center;
   text-decoration: none;
-  background-color: var(--color-primary);
+  background-color: #FF8FAB;
   color: var(--color-text);
   border: none;
   border-radius: 10rem;
@@ -509,7 +527,7 @@ body {
   aspect-ratio: 1;
   border-radius: 50%;
   border: none;
-  background-color: #fff;
+  background-color: #7B2CBF;
   color: var(--color-background-500);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
   font-family: sans-serif;
@@ -525,19 +543,13 @@ body {
 .btn-logout {
   border-radius: 1rem;
   margin-left: 0.4vw;
-  background-color: var(--color-background-900);
 }
-/* @media (max-width: 800px) {
-  .btn-switch {
-    display: none;
-  }
-} */
+
 
 .btn-logout {
   font-size: 3vmin;
   margin: 1vmin;
   width: 18vmin;
-  background-color: var(--color-primary);
 }
 @media (max-width: 800px) {
   .hidden {
