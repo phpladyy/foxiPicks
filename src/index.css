@@ -305,7 +305,7 @@ body {
   height: 1.8rem;
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 1px solid gray;
+  border: 2px solid rgb(0, 0, 0);
   background-color: #ff8fab;
   color: "var(--color-background-900)";
   font-size: 0.9rem;
@@ -318,10 +318,6 @@ body {
     font-size: 2rem;
     height: 2.8rem;
   }
-}
-
-.btn-delete:hover {
-  background-color: var(--color-background-900);
 }
 
 .summary {
@@ -359,18 +355,18 @@ body {
   }
 }
 .imdbLogo {
-  width: 2.5vw;
+  width: 2.6vw;
 }
 .rateLogo {
   width: 2vw;
 }
 .imdbLogo-big {
   color: #7b2cbf;
-  width: 3.5vw;
+  width: 3.6vw;
 }
 @media (max-width: 800px) {
   .imdbLogo {
-    width: 5.5vw;
+    width: 6vw;
   }
   .imdbLogo-big {
     width: 8.5vw;
@@ -504,8 +500,9 @@ body {
 }
 
 .btn-add:hover,
-.btn-switch:hover {
-  background-color: var(--color-primary-light);
+.btn-switch:hover,
+.btn-delete:hover {
+  background-color: #bde0fe;
 }
 
 .seconds {
