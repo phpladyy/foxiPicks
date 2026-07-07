@@ -1,5 +1,4 @@
 :root {
-  --color-primary: #CDB4DB;
   --color-primary-light: #dbc7e7;
   --color-text: #000000;
   --color-text-dark: #adb5bd;
@@ -42,7 +41,7 @@ body {
   transition: scrollbar-color 0.3s;
 
   &:hover {
-    scrollbar-color: #A2D2FF transparent;
+    scrollbar-color: #a2d2ff transparent;
   }
 
   &:not(:hover)::-webkit-scrollbar-thumb {
@@ -84,7 +83,7 @@ body {
   align-items: center;
   height: 7.2rem;
   padding: 0 3.2rem;
-  background-color: #ffc8dd;
+  background-color: var(--color-background-500);
   border-radius: 0.9rem;
 }
 @media (max-width: 800px) {
@@ -307,8 +306,8 @@ body {
   aspect-ratio: 1;
   border-radius: 50%;
   border: 1px solid gray;
-  background-color: #FF8FAB;
-  color: 'var(--color-background-900)';
+  background-color: #ff8fab;
+  color: "var(--color-background-900)";
   font-size: 0.9rem;
   font-weight: bold;
   cursor: pointer;
@@ -363,12 +362,12 @@ body {
   width: 2.5vw;
 }
 .rateLogo {
-    width: 2vw;
-  }
-  .imdbLogo-big {
-    color: #7B2CBF;
-    width: 3.5vw;
-  }
+  width: 2vw;
+}
+.imdbLogo-big {
+  color: #7b2cbf;
+  width: 3.5vw;
+}
 @media (max-width: 800px) {
   .imdbLogo {
     width: 5.5vw;
@@ -380,22 +379,22 @@ body {
     width: 6vw;
   }
 }
-.genres{
+.genres {
   display: flex;
   gap: 0.5vw;
 }
-.badge{
+.badge {
   padding: 0.2vw 0.7vw;
   text-align: center;
   border-radius: 999px;
   align-self: flex-start;
   display: inline-block;
-  background-color: #FFC8DD;
+  background-color: var(--color-background-500);
 }
 @media (max-width: 800px) {
- .badge{
-  padding: 0.4vw 1.2vw;
-}
+  .badge {
+    padding: 0.4vw 1.2vw;
+  }
 }
 .details {
   line-height: 1.4;
@@ -486,7 +485,7 @@ body {
 .btn-logout {
   text-align: center;
   text-decoration: none;
-  background-color: #FF8FAB;
+  background-color: #ff8fab;
   color: var(--color-text);
   border: none;
   border-radius: 10rem;
@@ -527,7 +526,7 @@ body {
   aspect-ratio: 1;
   border-radius: 50%;
   border: none;
-  background-color: #7B2CBF;
+  background-color: #7b2cbf;
   color: var(--color-background-500);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
   font-family: sans-serif;
@@ -544,7 +543,6 @@ body {
   border-radius: 1rem;
   margin-left: 0.4vw;
 }
-
 
 .btn-logout {
   font-size: 3vmin;
