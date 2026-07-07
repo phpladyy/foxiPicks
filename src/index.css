@@ -495,7 +495,8 @@ body {
   .btn-add,
   .btn-switch,
   .btn-logout {
-    font-size: 2.3vw;
+    font-size: 2.6vw;
+    padding: 1.4rem;
   }
 }
 
@@ -534,6 +535,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@media (max-width: 800px) {
+  .btn-back {
+    height: 4.2rem;
+    font-size: 3.4rem;
+  }
 }
 .btn-switch,
 .btn-logout {
