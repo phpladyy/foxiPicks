@@ -173,6 +173,9 @@ body {
 }
 
 .logo {
+  font-family: "Playwrite ID", cursive;
+  font-optical-sizing: auto;
+  font-style: normal;
   cursor: pointer;
   display: flex;
   align-items: center;
