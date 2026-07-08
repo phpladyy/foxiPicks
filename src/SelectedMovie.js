@@ -122,7 +122,7 @@ export function SelectedMovie({
               </p>
               <div className="genres">
                 {genre?.split(", ").map((genre) => (
-                  <p key={genre} className="badge">{genre}</p>
+                  <span key={genre} className="badge">{genre}</span>
                 ))}
               </div>
 

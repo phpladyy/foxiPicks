@@ -53,8 +53,8 @@
     width: 6vw;
   }
   .badge {
-    font-size: 0.8rem;
-    padding: 0.4vw 1.2vw;
+    font-size: 1.8rem;
+    padding: 0.6vw 1.2vw;
   }
   .badge-watched,
   .badge-watchlist {
