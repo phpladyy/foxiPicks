@@ -9,6 +9,7 @@ export function UserList({
   function handleRemove(e, id) {
     onRemoveListItem(e, id, list, setList, mode);
   }
+
   return (
     <ul className="list list-movies">
       {list.map((movie) => (

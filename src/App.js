@@ -122,12 +122,15 @@ export default function App() {
           </Navbar>
           <Main>
             <Panel
+              watched={watched}
               className={mobileHide === "hiddenSearchPanel" ? "hidden" : ""}
             >
               <div className={selectedId ? "hidden" : ""}>
                 {isLoading && <Loader />}
                 {!isLoading && !error && (
                   <MovieList
+                  watch_list={watchlist}
+                  watched={watched}
                     movies={movies}
                     onMovieSelect={handleMovieSelect}
                   />

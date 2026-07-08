@@ -5,6 +5,7 @@
   --color-background-100: #ffafcc;
   --color-background-500: #ffc8dd;
   --color-background-900: #cdb4db;
+  --color-babyblue: #a2d2ff;
   --color-red: #fa5252;
   --color-red-dark: #e03131;
 }
@@ -263,13 +264,13 @@ body {
 .btn-delete {
   position: absolute;
   right: 2.4rem;
-  height: 1.8rem;
+  height: 2.5rem;
   aspect-ratio: 1;
   border-radius: 50%;
   border: 2px solid rgb(0, 0, 0);
   background-color: #ff8fab;
-  color: "var(--color-background-900)";
-  font-size: 0.9rem;
+  color: var(--color-text);
+  font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s;
@@ -316,15 +317,29 @@ body {
   display: flex;
   gap: 0.5vw;
 }
-.badge {
+.badge,
+.badge-watched,
+.badge-watchlist {
   padding: 0.2vw 0.7vw;
   text-align: center;
-  border-radius: 999px;
+  border-radius: 5px;
   align-self: flex-start;
   display: inline-block;
   background-color: var(--color-background-500);
 }
-
+.badge-watched,
+.badge-watchlist {
+  font-weight: bolder;
+  text-transform: capitalize;
+  font-size: 1.3rem;
+  padding: 0.4vw 0.8vw;
+}
+.badge-watched {
+  background-color: var(--color-background-100);
+}
+.badge-watchlist {
+  background-color: var(--color-babyblue);
+}
 .details {
   line-height: 1.4;
   font-size: 1.4rem;
@@ -402,7 +417,7 @@ body {
   padding: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.9s;
 }
 
 .seconds {
@@ -444,7 +459,9 @@ body {
   .btn-add:hover,
   .btn-switch:hover,
   .btn-delete:hover {
-    background-color: #bde0fe;
+    border-radius: 20px;
+    box-shadow: 2px 2px 22px #f32865;
+    background-color: #f32865;
   }
 }
 
