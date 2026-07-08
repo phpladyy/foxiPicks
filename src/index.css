@@ -12,6 +12,20 @@
   --color-button-neon: #ff2e73;
 }
 
+/* LIGHT THEME */
+/* :root {
+  --color-primary-light: #dbc7e7;
+  --color-text: #000000;
+  --color-text-dark: #464646;
+  --color-background-100: #ffafcc;
+  --color-background-500: #ffc8dd;
+  --color-background-900: #cdb4db;
+  --color-close: #7b2cbf;
+  --color-badge-1: #a2d2ff;
+  --color-badge-2: #ffafcc;
+  --color-button: #ff8fab;
+  --color-button-neon: #f32865;
+} */
 * {
   margin: 0;
   padding: 0;
