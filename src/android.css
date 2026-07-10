@@ -82,11 +82,14 @@
 
   .btn-add,
   .btn-switch,
-  .btn-logout,.btn-login {
+  .btn-logout,
+  .btn-login {
     font-size: 2.6vw;
     padding: 1.4rem;
   }
-
+  .btn-switch {
+    width: 21vw;
+  }
   .btn-back {
     height: 4.2rem;
     font-size: 3.4rem;

@@ -406,7 +406,9 @@ body {
   display: "block";
   cursor: "pointer";
 }
-
+.btn-switch{
+  width: 14vw;
+}
 .btn-add,
 .btn-switch,
 .btn-logout,
