@@ -8,12 +8,10 @@ import { useData } from "./DataContext";
 import { ModeSwitch } from "./ModeSwitch";
 import { Login } from "./Login";
 import { UserTab } from "./UserTab";
-
 import { Logo } from "./Logo";
 
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
-export const KEY = process.env.REACT_APP_KEY;
 export const Loader = () => <p className="loader">Loading...</p>;
 
 export default function App() {

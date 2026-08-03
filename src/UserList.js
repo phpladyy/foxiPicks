@@ -1,7 +1,15 @@
+import { Loader } from "./App";
 import { ReactComponent as ImdbLogo } from "./assets/imdbLogo.svg";
 import { useData } from "./DataContext";
 export function UserList() {
-  const { list, setList, onRemoveListItem, onMovieSelect, mode } = useData();
+  const {
+    list,
+    setList,
+    onRemoveListItem,
+    onMovieSelect,
+    mode,
+    isUserLoading,
+  } = useData();
 
   function handleRemove(e, id) {
     onRemoveListItem(e, id, list, setList);
@@ -11,15 +19,21 @@ export function UserList() {
   }
   return (
     <ul className="list list-movies">
-      {list.sort(compareNumbers).map((movie) => (
-        <WatchedItem
-          mode={mode}
-          key={movie.imdbID}
-          movie={movie}
-          handleMovieSelect={onMovieSelect}
-          handleRemove={handleRemove}
-        />
-      ))}
+      {isUserLoading ? (
+        <Loader />
+      ) : (
+        list
+          .sort(compareNumbers)
+          .map((movie) => (
+            <WatchedItem
+              mode={mode}
+              key={movie.imdbID}
+              movie={movie}
+              handleMovieSelect={onMovieSelect}
+              handleRemove={handleRemove}
+            />
+          ))
+      )}
     </ul>
   );
 }

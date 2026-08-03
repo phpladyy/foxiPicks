@@ -19,12 +19,14 @@ function DataProvider({ children }) {
   const [mode, setMode] = useState(false);
   const list = mode ? watched : watchlist;
   const setList = mode ? setWatched : setWatchlist;
+  const [isUserLoading, setIsUserLoading] = useState(false);
 
   useEffect(() => {
     if (!session) {
       return;
     }
     const fetchUserData = async () => {
+      setIsUserLoading(true);
       const data = await fetchData(session, "/.netlify/functions/getProfile");
       if (data) {
         setUserProfile(data);
@@ -34,6 +36,7 @@ function DataProvider({ children }) {
         setSession(null);
         setUserProfile(null);
       }
+      setIsUserLoading(false);
     };
     fetchUserData();
   }, [session, setSession, setUserProfile, setWatched, setWatchlist]);
@@ -120,6 +123,7 @@ function DataProvider({ children }) {
         onMovieSelect: handleMovieSelect,
         list,
         setList,
+        isUserLoading
       }}
     >
       {children}
