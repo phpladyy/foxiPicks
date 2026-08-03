@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useData } from "./DataContext";
 
-export function UserTab({onClick, userProfile, setUserProfile, setSession }) {
+export function UserTab() {
+  const {userProfile, setUserProfile, setSession } = useData();
   const [isOpened, setIsOpened] = useState(false);
   function handlePopUp() {
     setIsOpened((isOpened) => !isOpened);

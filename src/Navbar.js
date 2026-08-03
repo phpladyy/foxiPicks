@@ -1,9 +1,3 @@
-
-export function Navbar({ children, setQuery, setSelectedId, setMobileHide }) {
-
-  return (
-    <nav className="nav-bar">
-      {children}
-    </nav>
-  );
+export function Navbar({ children }) {
+  return <nav className="nav-bar">{children}</nav>;
 }

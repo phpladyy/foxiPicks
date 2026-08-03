@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useKeyPress } from "./useKeyPress";
+import { useData } from "./DataContext";
 
-export function SearchBar({ onClick, query, setQuery }) {
+export function SearchBar() {
+  const { handleSearchClick, query, setQuery } = useData();
   const inputElement = useRef(null);
 
   function callback(e) {
@@ -17,7 +19,7 @@ export function SearchBar({ onClick, query, setQuery }) {
 
   return (
     <input
-      onClick={onClick}
+      onClick={handleSearchClick}
       className="search"
       type="text"
       placeholder="Search movies..."

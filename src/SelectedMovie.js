@@ -3,18 +3,20 @@ import { Loader } from "./App";
 import StarRating from "./StarRating";
 import { useKeyPress } from "./useKeyPress";
 import { CriticRatings } from "./CriticRatings";
+import { useData } from "./DataContext";
 
-export function SelectedMovie({
-  selectedId,
-  onCloseMovie,
-  onAddMovie,
-  watched,
-  setWatched,
-  watchlist,
-  setWatchlist,
-  userProfile,
-  onRemoveListItem,
-}) {
+export function SelectedMovie() {
+  const {
+    selectedId,
+    onCloseMovie,
+    onAddMovie,
+    watched,
+    setWatched,
+    watchlist,
+    setWatchlist,
+    onRemoveListItem,
+  } = useData();
+
   const [movie, setMovie] = useState({});
   const [userRating, setUserRating] = useState(null);
   const [isLoading, setIsLoading] = useState(false);

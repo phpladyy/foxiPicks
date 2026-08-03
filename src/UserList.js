@@ -1,11 +1,8 @@
 import { ReactComponent as ImdbLogo } from "./assets/imdbLogo.svg";
-export function UserList({
-  list,
-  setList,
-  onRemoveListItem,
-  onMovieSelect,
-  mode,
-}) {
+import { useData } from "./DataContext";
+export function UserList() {
+  const { list, setList, onRemoveListItem, onMovieSelect, mode } = useData();
+
   function handleRemove(e, id) {
     onRemoveListItem(e, id, list, setList);
   }
@@ -23,9 +20,6 @@ export function UserList({
           handleRemove={handleRemove}
         />
       ))}
-      {list?.length <= 0 && (
-        <h2>No movies yet find something great and hit add to get started.</h2>
-      )}
     </ul>
   );
 }

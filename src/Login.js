@@ -2,8 +2,10 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useState, useEffect } from "react";
 import { Navbar } from "./Navbar";
 import { Logo } from "./Logo";
+import { useData } from "./DataContext";
 
-export function Login({ setUserProfile, setSession }) {
+export function Login() {
+  const { setUserProfile, setSession } = useData();
   const [user, setUser] = useState(null);
 
   const googleAuth = useGoogleLogin({
@@ -38,7 +40,7 @@ export function Login({ setUserProfile, setSession }) {
   return (
     <div>
       <Navbar>
-        <Logo/>
+        <Logo />
         <h1>Login to access webpage</h1>
         <button className="btn-login" onClick={() => googleAuth()}>
           Login

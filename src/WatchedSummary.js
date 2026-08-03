@@ -1,6 +1,9 @@
 import { average } from "./App";
 import { ReactComponent as ImdbLogo } from "./assets/imdbLogo.svg";
-export function WatchedSummary({ userMovies, mode }) {
+import { useData } from "./DataContext";
+export function WatchedSummary() {
+  const { mode, watched, watchlist } = useData();
+  const userMovies = mode ? watched : watchlist;
   const avgImdbRating = average(userMovies.map((movie) => movie.imdbRating));
   const totalRuntime =
     userMovies.length > 0
@@ -15,7 +18,7 @@ export function WatchedSummary({ userMovies, mode }) {
           <span>{userMovies.length} movies</span>
         </p>
         <p title="Internet Movie Database Rating">
-          <ImdbLogo className="imdbLogo"/>
+          <ImdbLogo className="imdbLogo" />
           {avgImdbRating.toFixed(2)}
         </p>
         <p title="Total Watch time">

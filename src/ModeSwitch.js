@@ -1,11 +1,13 @@
 import { useMediaQuery } from "react-responsive";
-export function ModeSwitch({ onClick, setMode, mode, mobileHide }) {
+import { useData } from "./DataContext";
+export function ModeSwitch() {
+  const { handleModeClick, setMode, mode, mobileHide } = useData();
   const isMobile = useMediaQuery({ maxWidth: 800 });
   const isVisible = mobileHide === "hiddenSearchPanel";
 
   function handleClick() {
     if (isMobile && !isVisible) {
-      onClick();
+      handleModeClick();
     } else {
       setMode((mode) => !mode);
     }

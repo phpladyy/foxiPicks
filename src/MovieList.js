@@ -1,27 +1,24 @@
 import { useState } from "react";
+import { useData } from "./DataContext";
 
-export function MovieList({ movies, onMovieSelect, watched, watch_list }) {
+export function MovieList() {
+  const { movies } = useData();
   return (
     <ul className="list list-movies">
       {movies?.map((movie) => (
-        <MovieItem
-          watch_list={watch_list}
-          watched={watched}
-          key={movie.imdbID}
-          movie={movie}
-          handleMovieSelect={onMovieSelect}
-        />
+        <MovieItem key={movie.imdbID} movie={movie} />
       ))}
     </ul>
   );
 }
-function MovieItem({ movie, handleMovieSelect, watched, watch_list }) {
+function MovieItem({movie}) {
+  const { onMovieSelect, watched, watchlist } = useData();
   const [imageStatus, setImageStatus] = useState(true);
   if (!imageStatus) {
     return;
   }
   return (
-    <li onClick={() => handleMovieSelect(movie.imdbID)}>
+    <li onClick={() => onMovieSelect(movie.imdbID)}>
       <img
         src={movie.Poster}
         alt={`${movie.Title} poster`}
@@ -39,7 +36,7 @@ function MovieItem({ movie, handleMovieSelect, watched, watch_list }) {
                 Watched
               </span>
             ))}
-          {watch_list
+          {watchlist
             .filter((item) => item.imdbID === movie.imdbID)
             .map((res) => (
               <span key={movie.imdbID} className="badge-watchlist">
